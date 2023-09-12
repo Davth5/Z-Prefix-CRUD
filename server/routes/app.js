@@ -1,7 +1,10 @@
 const express = require("express");
-const app = express();
+const cors = require("cors");
 
+const app = express();
 const PORT = process.env.PORT || 8080;
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -9,8 +12,8 @@ const usersRoutes = require("./users");
 const userInventoryRouter = require("./userInventory");
 const itemsRoutes = require("./items");
 
-app.use("/users", usersRoutes);
-app.use("/user/inventory", userInventoryRouter);
+app.use("/", usersRoutes);
+app.use("/user/", userInventoryRouter);
 app.use("/items", itemsRoutes);
 
 app.listen(PORT, () => {

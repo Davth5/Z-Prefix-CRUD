@@ -1,35 +1,35 @@
-// import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import AddItem from "./AddItem";
+import ItemList from "./ItemList";
+import axios from "axios";
 
-// const UserInventory = () => {
-//   const [items, setItems] = useState([]);
+function UserInventory({ userId }) {
+  const [items, setItems] = useState([]);
 
-//   useEffect(() => {
-//     // Fetch the items from the backend and set them in the state
-//     const fetchItems = async () => {
-//       try {
-//         const response = await fetch(`/api/items/:userId`); // adjust this endpoint; use actual userId
-//         const data = await response.json();
-//         setItems(data);
-//       } catch (error) {
-//         console.error("Error fetching items:", error);
-//       }
-//     };
+useEffect(() => {
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/items/${userId}`);
+      const data = response.data;
+      setItems(data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
+  };
 
-//     fetchItems();
-//   }, []);
+  fetchItems();
+}, [userId]);
 
-//   return (
-//     <div>
-//       <h2>Your Inventory</h2>
-//       <ul>
-//         {items.map((item) => (
-//           <li key={item.id}>
-//             {item.name} - {item.description} - {item.quantity}
-//           </li>
-//         ))}
-//       </ul>
-//     </div>
-//   );
-// };
+  const handleItemAdded = (newItem) => {
+    setItems((prevItems) => [...prevItems, newItem]);
+  };
 
-// export default UserInventory;
+  return (
+    <div>
+      <AddItem userId={userId} onItemAdded={handleItemAdded} />
+      <ItemList items={items} />
+    </div>
+  );
+}
+
+export default UserInventory;

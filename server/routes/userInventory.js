@@ -4,7 +4,7 @@ const knex = require("knex");
 const config = require("../knexfile")[process.env.NODE_ENV || "development"];
 const db = knex(config);
 
-router.get("/:userId", async (req, res) => {
+router.get("/:userId/items", async (req, res) => {
   try {
     const items = await db("items")
       .where({ userId: req.params.userId })
@@ -21,14 +21,14 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-router.post("/:userId/post", async (req, res) => {
-  const { name, description, quantity } = req.body;
+router.post("/:userId/add", async (req, res) => {
+  const { itemName, description, quantity } = req.body;
   const userId = req.params.userId;
 
   try {
     const newItem = await db("items")
       .insert({
-        name,
+        itemName,
         description,
         quantity,
         userId, 

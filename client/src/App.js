@@ -1,36 +1,35 @@
-import "./App.css";
-import React, { useState, useEffect } from "react";
-import AddItem from "./components/AddItem";
-import ItemList from "./components/ItemList";
+import React, { useState } from "react";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import UserInventory from "./components/UserInventory";
+import { UserProvider } from "./components/UserContext";
 
 function App() {
-  const userId = "YOUR_USER_ID"; // Dynamic value.
-
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch(`/api/items/${userId}`);
-        const data = await response.json();
-        setItems(data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    };
-
-    fetchItems();
-  }, [userId]);
-
-  const handleItemAdded = (newItem) => {
-    setItems((prevItems) => [...prevItems, newItem]);
-  };
+  const [user, setUser] = useState(null);
+  const [view, setView] = useState("login"); // either "login" or "register"
 
   return (
-    <div>
-      <AddItem userId={userId} onItemAdded={handleItemAdded} />
-      <ItemList items={items} />
-    </div>
+    <UserProvider value={{ user, setUser }}>
+      {!user ? (
+        <div>
+          {view === "login" ? (
+            <>
+              <Login onUserLoggedIn={setUser} />
+              <button onClick={() => setView("register")}>
+                Register instead
+              </button>
+            </>
+          ) : (
+            <>
+              <Register onUserRegistered={setUser} />
+              <button onClick={() => setView("login")}>Login instead</button>
+            </>
+          )}
+        </div>
+      ) : (
+        <UserInventory userId={user.id} />
+      )}
+    </UserProvider>
   );
 }
 

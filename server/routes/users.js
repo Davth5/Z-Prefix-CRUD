@@ -33,7 +33,6 @@ router.post("/login", async (req, res) => {
     const user = await db("users").where({ userName }).first();
 
     if (user && (await bcrypt.compare(password, user.password))) {
-
       res.json({ id: user.id, userName: user.userName });
     } else {
       res.status(401).json("Invalid credentials");
@@ -44,9 +43,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-module.exports = router;
-
-router.get("/:userId", async (req, res) => {
+router.get("/users/:userId", async (req, res) => {
   try {
     const user = await db("users").where({ id: req.params.userId }).select();
     if (user.length) {
@@ -59,7 +56,6 @@ router.get("/:userId", async (req, res) => {
     res.status(400).json("Error fetching user.");
   }
 });
-
 
 // router.put("/:userId", async (req, res) => {
 //   const { firstName, lastName, userName, password } = req.body;
@@ -84,7 +80,7 @@ router.get("/:userId", async (req, res) => {
 //   }
 // });
 
-router.patch("/:userId", async (req, res) => {
+router.patch("/users/:userId", async (req, res) => {
   try {
     const updatedUser = await db("users")
       .where({ id: req.params.userId })
@@ -101,7 +97,7 @@ router.patch("/:userId", async (req, res) => {
   }
 });
 
-router.delete("/:userId", async (req, res) => {
+router.delete("/users/:userId", async (req, res) => {
   try {
     const deletedCount = await db("users")
       .where({ id: req.params.userId })

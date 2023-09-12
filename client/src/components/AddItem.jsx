@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function AddItem({ userId, onItemAdded }) {
   const [name, setName] = useState("");
@@ -9,16 +10,13 @@ function AddItem({ userId, onItemAdded }) {
     e.preventDefault();
 
     try {
-      const response = await fetch(`/inventory/${userId}/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description, quantity }),
-      });
-
-      const data = await response.json();
+      const response = await axios.post(
+        `http://localhost:8080/user/inventory/${userId}/post`,
+        { name, description, quantity }
+      );
+      const data = response.data;
 
       if (data) {
-        // Inform parent component that an item was added successfully
         onItemAdded(data);
       }
     } catch (err) {

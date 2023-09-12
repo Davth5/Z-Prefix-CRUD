@@ -37,17 +37,17 @@ router.get("/all", async (req, res) => {
   }
 });
 
-router.get("/:userId", async (req, res) => {
-  try {
-    const items = await db("items")
-      .where({ userId: req.params.userId })
-      .select();
-    res.json(items);
-  } catch (err) {
-    console.error("Error fetching items:", err.message);
-    res.status(400).json("Error fetching items.");
-  }
-});
+// router.get("/:userId", async (req, res) => {
+//   try {
+//     const items = await db("items")
+//       .where({ userId: req.params.userId })
+//       .select();
+//     res.json(items);
+//   } catch (err) {
+//     console.error("Error fetching items:", err.message);
+//     res.status(400).json("Error fetching items.");
+//   }
+// });
 
 router.patch("/:itemId", async (req, res) => {
   try {
