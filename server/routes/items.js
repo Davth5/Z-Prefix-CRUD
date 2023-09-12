@@ -22,6 +22,21 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/all", async (req, res) => {
+  try {
+    const items = await db("items").select();
+    items.forEach((item) => {
+      if (item.description.length > 100) {
+        item.description = item.description.substring(0, 100) + "...";
+      }
+    });
+    res.json(items);
+  } catch (err) {
+    console.error("Error fetching all items:", err.message);
+    res.status(400).json("Error fetching all items.");
+  }
+});
+
 router.get("/:userId", async (req, res) => {
   try {
     const items = await db("items")
@@ -33,25 +48,6 @@ router.get("/:userId", async (req, res) => {
     res.status(400).json("Error fetching items.");
   }
 });
-
-// Update an item
-// router.put("/:itemId", async (req, res) => {
-//   const { itemName, description, quantity } = req.body;
-//   try {
-//     const updatedItem = await db("items")
-//       .where({ id: req.params.itemId })
-//       .update({
-//         itemName,
-//         description,
-//         quantity,
-//       })
-//       .returning("*");
-//     res.json(updatedItem[0]);
-//   } catch (err) {
-//     console.error("Error updating item:", err.message);
-//     res.status(400).json("Error updating item.");
-//   }
-// });
 
 router.patch("/:itemId", async (req, res) => {
   try {
