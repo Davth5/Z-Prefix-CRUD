@@ -7,14 +7,14 @@ exports.seed = async function (knex) {
   await knex("items").del();
   await knex("items").insert([
     {
-      user_id: 1,
-      item_name: "Laptop",
+      userId: 1,
+      itemName: "Laptop",
       description: "Macbook Pro",
       quantity: 1,
     },
     {
-      user_id: 2,
-      item_name: "Phone",
+      userId: 2,
+      itemName: "Phone",
       description: "iPhone 12",
       quantity: 1,
     },
