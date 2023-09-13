@@ -1,43 +1,41 @@
 import React, { useState, useEffect } from "react";
-import AddItem from "./AddItem";
-import ItemList from "./ItemList";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import AddItem from "./AddItem";
 
 function UserInventory({ userId }) {
   const [items, setItems] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
 
-  const fetchItems = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/user/${userId}/items`
-      );
-      setItems(response.data);
-    } catch (error) {
-      console.error("Error fetching items:", error);
-    }
-  };
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/users/${userId}`);
-      setUserInfo(response.data);
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/items/${userId}`
+        );
+        setItems(response.data);
+      } catch (error) {
+        console.error("Error fetching items:", error);
+      }
+    };
+
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/users/${userId}`
+        );
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
     fetchItems();
     fetchUserInfo();
   }, [userId]);
 
-  const handleItemAdded = async (newItem) => {
-    // Optimistically update the UI
+  const handleItemAdded = (newItem) => {
     setItems((prevItems) => [...prevItems, newItem]);
-
-    // Re-fetch items to ensure data consistency
-    await fetchItems();
   };
 
   return (
@@ -50,7 +48,15 @@ function UserInventory({ userId }) {
       )}
 
       <AddItem userId={userId} onItemAdded={handleItemAdded} />
-      <ItemList items={items} />
+
+      <div>
+        <h3>Your Inventory:</h3>
+        {items.map((item) => (
+          <div key={item.id}>
+            <Link to={`/item/${item.id}`}>{item.itemName}</Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

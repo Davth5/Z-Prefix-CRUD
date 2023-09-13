@@ -3,7 +3,6 @@ import { UserContext } from "./UserContext";
 import axios from "axios";
 
 function AddItem({ onItemAdded }) {
-  // Accept the onItemAdded prop
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -23,7 +22,6 @@ function AddItem({ onItemAdded }) {
       const response = await axios.post("/items", itemData);
       console.log("Item added:", response.data);
 
-      // Notify the parent that an item has been added
       if (onItemAdded) {
         onItemAdded(response.data);
       }

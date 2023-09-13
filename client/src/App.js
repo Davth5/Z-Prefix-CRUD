@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import UserInventory from "./components/UserInventory";
-import { useUser } from "./components/UserContext"; // Import the useUser hook
+import { useUser } from "./components/UserContext";
 import AddItem from "./components/AddItem";
+import ItemDetails from "./components/ItemDetails";
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,7 +14,7 @@ import {
 } from "react-router-dom";
 
 function App() {
-  const { user, setUser } = useUser(); // Use the useUser hook to get user and setUser
+  const { user } = useUser();
 
   console.log("Current user state:", user);
   console.log("Is user authenticated?", !!user);
@@ -34,6 +35,8 @@ function App() {
               element={<UserInventory userId={user.id} />}
             />
             <Route path="/add-item" element={<AddItem />} />
+            <Route path="/item/:itemId" element={<ItemDetails />} />
+
             <Route path="/" element={<Navigate to="/dashboard" />} />
           </>
         )}

@@ -13,7 +13,7 @@ const userInventoryRouter = require("./userInventory");
 const itemsRoutes = require("./items");
 
 app.use("/", usersRoutes);
-app.use("/user/", userInventoryRouter);
+app.use("/users/:userId/items", userInventoryRouter);
 app.use("/items", itemsRoutes);
 
 app.listen(PORT, () => {

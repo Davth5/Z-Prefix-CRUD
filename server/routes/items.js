@@ -49,6 +49,20 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
+router.get("/item/:itemId", async (req, res) => {
+  try {
+    const item = await db("items").where({ id: req.params.itemId }).first();
+    if (item) {
+      res.json(item);
+    } else {
+      res.status(404).json("Item not found");
+    }
+  } catch (err) {
+    console.error("Error fetching item:", err.message);
+    res.status(400).json("Error fetching item.");
+  }
+});
+
 router.patch("/:itemId", async (req, res) => {
   try {
     const updatedItem = await db("items")

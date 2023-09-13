@@ -6,14 +6,13 @@ import { useNavigate } from "react-router";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null); // State to handle error messages
+  const [error, setError] = useState(null); 
   const { setUser } = useUser();
-  const navigate = useNavigate(); // Use the useNavigate hook
-
+  const navigate = useNavigate(); 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("Attempting login with:", { username, password }); // Log the login attempt
+      console.log("Attempting login with:", { username, password }); 
 
       const response = await axios.post("http://localhost:8080/login", {
         userName: username,
@@ -21,7 +20,7 @@ function Login() {
       });
       const data = response.data;
 
-      console.log("Login API response:", data); // Log the API response
+      console.log("Login API response:", data); 
       console.log("setUser function:", setUser);
 
       if (data && data.id) {
@@ -34,7 +33,7 @@ function Login() {
       }
     } catch (error) {
       console.error("Login failed:", error.message);
-      setError("Invalid username or password"); // Set the error message
+      setError("Invalid username or password"); 
     }
   };
 
