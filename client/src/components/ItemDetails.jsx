@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function ItemDetails() {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -19,6 +20,15 @@ function ItemDetails() {
     fetchItemDetails();
   }, [itemId]);
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/items/${itemId}`);
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   return (
     <div>
       {item ? (
@@ -26,6 +36,7 @@ function ItemDetails() {
           <h2>{item.itemName}</h2>
           <p>Description: {item.description}</p>
           <p>Quantity: {item.quantity}</p>
+          <button onClick={handleDelete}>Delete</button>
         </>
       ) : (
         <p>Loading item details...</p>

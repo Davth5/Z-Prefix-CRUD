@@ -21,7 +21,6 @@ function Login() {
       const data = response.data;
 
       console.log("Login API response:", data); 
-      console.log("setUser function:", setUser);
 
       if (data && data.id) {
         console.log("Setting user data:", data);
