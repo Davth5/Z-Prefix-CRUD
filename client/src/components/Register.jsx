@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useUser } from "./UserContext";
 
-function Register({ onUserRegistered }) {
+function Register() {
+  const { handleUserRegistered } = useUser();
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccessMessage("");
+
     try {
       const response = await axios.post("http://localhost:8080/register", {
         userName,
@@ -17,13 +23,18 @@ function Register({ onUserRegistered }) {
         firstName,
         lastName,
       });
+      console.log("Registration response status:", response.status);
+      console.log("Registration response data:", response.data);
       const data = response.data;
-      if (data && data.userId) {
-        onUserRegistered(data);
+
+      if (data && data.id) {
+        handleUserRegistered(data);
+        setSuccessMessage("Successfully registered!");
       }
     } catch (err) {
+      setSuccessMessage("");
       if (err.response && err.response.status === 400) {
-        setError("Username already exists. Choose a different one."); 
+        setError("Username already exists. Choose a different one.");
       } else {
         setError("Error registering. Please try again.");
       }
@@ -68,8 +79,8 @@ function Register({ onUserRegistered }) {
           required
         />
       </label>
+      {successMessage && <p className="success-message">{successMessage}</p>}
       {error && <p className="error-message">{error}</p>}
-
       <button type="submit">Register</button>
     </form>
   );

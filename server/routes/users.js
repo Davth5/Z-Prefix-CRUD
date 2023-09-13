@@ -19,7 +19,8 @@ router.post("/register", async (req, res) => {
         password: hashedPassword,
       })
       .returning("*");
-    res.json(newUser[0]);
+    console.log("New user:", newUser); // Add this line
+    res.status(200).json(newUser[0]);
   } catch (err) {
     console.error("Error registering user:", err.message);
     res.status(400).json("Error registering user.");

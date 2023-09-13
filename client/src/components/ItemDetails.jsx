@@ -9,7 +9,7 @@ import StyledButton from "./styles/StyledButton";
 function ItemDetails() {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
-  const [isEditMode, setIsEditMode] = useState(false); // New state for edit mode
+  const [isEditMode, setIsEditMode] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {

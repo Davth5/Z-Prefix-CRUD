@@ -9,7 +9,7 @@ function StyledTextField(props) {
       variant="outlined"
       size="small"
       margin="normal"
-      {...props} // This will allow you to pass any additional props to the TextField
+      {...props}
     />
   );
 }
