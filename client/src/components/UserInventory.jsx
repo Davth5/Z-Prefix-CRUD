@@ -6,56 +6,39 @@ import axios from "axios";
 function UserInventory({ userId }) {
   const [items, setItems] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-  const [loading, setLoading] = useState(true); // State to handle loading state
-  const [error, setError] = useState(null); // State to handle any errors
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/user/${userId}/items`
-        );
-        console.log("Fetched items:", response.data);
-
-        setItems(response.data);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-        setError("Failed to fetch items.");
-      }
-    };
-
-    const fetchUserInfo = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/users/${userId}`
-        );
-        const data = response.data;
-        setUserInfo(data);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-        setError("Failed to fetch user information.");
-      }
-    };
-
-    const fetchData = async () => {
-      await Promise.all([fetchItems(), fetchUserInfo()]);
-      setLoading(false); // Set loading to false once both requests are complete
-    };
-
-    fetchData();
-  }, [userId]);
-
-  const handleItemAdded = (newItem) => {
-    setItems((prevItems) => [...prevItems, newItem]);
+  const fetchItems = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/user/${userId}/items`
+      );
+      setItems(response.data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/users/${userId}`);
+      setUserInfo(response.data);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  useEffect(() => {
+    fetchItems();
+    fetchUserInfo();
+  }, [userId]);
+
+  const handleItemAdded = async (newItem) => {
+    // Optimistically update the UI
+    setItems((prevItems) => [...prevItems, newItem]);
+
+    // Re-fetch items to ensure data consistency
+    await fetchItems();
+  };
 
   return (
     <div>

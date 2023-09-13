@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 
-function AddItem() {
+function AddItem({ onItemAdded }) {
+  // Accept the onItemAdded prop
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -21,6 +22,11 @@ function AddItem() {
     try {
       const response = await axios.post("/items", itemData);
       console.log("Item added:", response.data);
+
+      // Notify the parent that an item has been added
+      if (onItemAdded) {
+        onItemAdded(response.data);
+      }
     } catch (error) {
       console.error("Error adding item:", error);
     }
