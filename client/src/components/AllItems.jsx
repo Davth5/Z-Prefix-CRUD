@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Grid, CardMedia } from "@mui/material";
 import StyledWrapper from "./styles/StyledWrapper";
+import StyledTitle from "./styles/StyledTitle";
 
 function AllItems() {
   const [items, setItems] = useState([]);
@@ -20,21 +21,50 @@ function AllItems() {
   }, []);
 
   return (
-    <div>
-      <h3>All Items:</h3>
-
-      {items.map((item) => (
-        <StyledWrapper>
-          <div key={item.id}>
-            <Link to={`/item/${item.id}`}>{item.itemName}</Link>
-            <p>
-              {item.description.length > 100
-                ? `${item.description.substring(0, 100)}...`
-                : item.description}
-            </p>
-          </div>
-        </StyledWrapper>
-      ))}
+    <div style={{ padding: "20px" }}>
+      <StyledTitle>All Items:</StyledTitle>
+      <Grid container spacing={2} justifyContent="center">
+        {items.map((item) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            key={item.id}
+            style={{ overflow: "hidden" }}
+          >
+            <StyledWrapper
+              style={{
+                width: "100%",
+                padding: "10px",
+                boxSizing: "border-box",
+                overflow: "hidden",
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="140"
+                width="100%"
+                image={`https://picsum.photos/200/300?random=${item.id}`}
+                alt="Random Image"
+                style={{ objectFit: "cover" }}
+              />
+              <Link
+                to={`/item/${item.id}`}
+                style={{ textDecoration: "none", color: "#3f51b5" }}
+              >
+                {item.itemName}
+              </Link>
+              <p>
+                {item.description.length > 100
+                  ? `${item.description.substring(0, 100)}...`
+                  : item.description}
+              </p>
+            </StyledWrapper>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }

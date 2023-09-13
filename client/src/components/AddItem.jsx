@@ -1,7 +1,11 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
-import StyledWrapper from "./styles/StyledWrapper";
 import axios from "axios";
+import StyledWrapper from "./styles/StyledWrapper";
+import StyledButton from "./styles/StyledButton";
+import StyledTextArea from "./styles/StyledTextArea";
+import StyledTextField from "./styles/StyledTextField";
+import StyledTitle from "./styles/StyledTitle";
 
 function AddItem({ onItemAdded }) {
   const [itemName, setItemName] = useState("");
@@ -33,35 +37,26 @@ function AddItem({ onItemAdded }) {
 
   return (
     <StyledWrapper>
-      <div>
-        <h2>Add Item</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Item Name:</label>
-            <input
-              type="text"
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Description:</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-          </div>
-          <div>
-            <label>Quantity:</label>
-            <input
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-          </div>
-          <button type="submit">Add Item</button>
-        </form>
-      </div>
+      <StyledTitle>Add Item</StyledTitle>
+      <form onSubmit={handleSubmit}>
+        <StyledTextField
+          label="Item Name"
+          value={itemName}
+          onChange={(e) => setItemName(e.target.value)}
+        />
+        <StyledTextArea
+          label="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <StyledTextField
+          type="number"
+          label="Quantity"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
+        />
+        <StyledButton type="submit">Add Item</StyledButton>
+      </form>
     </StyledWrapper>
   );
 }
