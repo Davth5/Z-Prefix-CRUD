@@ -22,10 +22,13 @@ function Login() {
       const data = response.data;
 
       console.log("Login API response:", data); // Log the API response
+      console.log("setUser function:", setUser);
 
       if (data && data.id) {
+        console.log("Setting user data:", data);
         setUser({ id: data.id, userName: data.userName });
-        navigate("/dashboard"); // Redirect to dashboard after successful login
+        console.log("Called setUser function");
+        navigate("/dashboard");
       } else {
         throw new Error("Invalid credentials");
       }
