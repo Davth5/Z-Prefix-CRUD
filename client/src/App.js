@@ -5,6 +5,7 @@ import UserInventory from "./components/UserInventory";
 import { useUser } from "./components/UserContext";
 import AddItem from "./components/AddItem";
 import ItemDetails from "./components/ItemDetails";
+import AllItems from "./components/AllItems";
 import {
   BrowserRouter as Router,
   Routes,
@@ -24,18 +25,21 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/item/:itemId" element={<ItemDetails />} />
+        <Route path="/items/all" element={<AllItems />} />
+
         {!user ? (
           <>
             <Route path="/" element={<Navigate to="/login" />} />
           </>
         ) : (
           <>
+            <Route path="/add-item" element={<AddItem />} />
+
             <Route
               path="/dashboard"
               element={<UserInventory userId={user.id} />}
             />
-            <Route path="/add-item" element={<AddItem />} />
-            <Route path="/item/:itemId" element={<ItemDetails />} />
 
             <Route path="/" element={<Navigate to="/dashboard" />} />
           </>
