@@ -13,7 +13,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   console.log("UserProvider - Current user state:", user);
-  console.log("UserProvider - Providing setUser function:", setUser);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

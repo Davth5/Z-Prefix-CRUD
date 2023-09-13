@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function Register({ onUserRegistered }) {
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState(""); 
   const [lastName, setLastName] = useState(""); 
@@ -12,7 +12,7 @@ function Register({ onUserRegistered }) {
 
     try {
       const response = await axios.post("http://localhost:8080/register", {
-        userName: username,
+        userName,
         password,
         firstName, 
         lastName, 
@@ -53,7 +53,7 @@ function Register({ onUserRegistered }) {
         Username:
         <input
           type="text"
-          value={username}
+          value={userName}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
