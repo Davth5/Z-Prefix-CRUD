@@ -6,6 +6,7 @@ import { useUser } from "./components/UserContext";
 import AddItem from "./components/AddItem";
 import ItemDetails from "./components/ItemDetails";
 import AllItems from "./components/AllItems";
+import NavBar from "./components/NavBar";
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <Router>
+      <NavBar />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -45,15 +47,6 @@ function App() {
           </>
         )}
       </Routes>
-
-      <div>
-        <button>
-          <Link to="/login">Login</Link>
-        </button>
-        <button>
-          <Link to="/register">Register</Link>
-        </button>
-      </div>
     </Router>
   );
 }

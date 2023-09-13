@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { CardMedia } from "@mui/material"; 
 import StyledWrapper from "./styles/StyledWrapper";
 import StyledTitle from "./styles/StyledTitle";
 import StyledButton from "./styles/StyledButton";
@@ -37,6 +38,14 @@ function ItemDetails() {
       {item ? (
         <>
           <StyledTitle>{item.itemName}</StyledTitle>
+          <CardMedia
+            component="img"
+            height="250"
+            width="100%"
+            image={`https://picsum.photos/200/300?random=${item.id}`}
+            alt="Random Image"
+            style={{ objectFit: "cover" }}
+          />
           <p>Description: {item.description}</p>
           <p>Quantity: {item.quantity}</p>
           <StyledButton onClick={handleDelete}>Delete</StyledButton>
