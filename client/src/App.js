@@ -15,13 +15,12 @@ import {
 function App() {
   const [user, setUser] = useState(null);
 
-  console.log("Current user state:", user); // Log the user state
+  console.log("Current user state:", user);
 
   return (
     <Router>
       <UserProvider value={{ user, setUser }}>
         <Routes>
-          {/* Routes for unauthenticated users */}
           {!user ? (
             <>
               <Route
@@ -32,10 +31,8 @@ function App() {
                 path="/register"
                 element={<Register onUserRegistered={setUser} />}
               />
-              {/* Default redirect to login */}
               <Route path="/" element={<Navigate to="/login" />} />
-              {console.log("Rendering unauthenticated routes")} // Log for
-              unauthenticated routes
+              {console.log("Rendering unauthenticated routes")}
             </>
           ) : (
             <>
@@ -45,13 +42,11 @@ function App() {
               />
               <Route path="/add-item" element={<AddItem />} />
               <Route path="/" element={<Navigate to="/dashboard" />} />
-              {console.log("Rendering authenticated routes")} // Log for
-              authenticated routes
+              {console.log("Rendering authenticated routes")}
             </>
           )}
         </Routes>
 
-        {/* Navigation links */}
         <div>
           <button>
             <Link to="/login">Login</Link>

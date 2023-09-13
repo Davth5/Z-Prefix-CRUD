@@ -13,10 +13,11 @@ function UserInventory({ userId }) {
     const fetchItems = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/items/${userId}`
+          `http://localhost:8080/user/${userId}/items`
         );
-        const data = response.data;
-        setItems(data);
+        console.log("Fetched items:", response.data);
+
+        setItems(response.data);
       } catch (error) {
         console.error("Error fetching items:", error);
         setError("Failed to fetch items.");
