@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useUser } from "./UserContext";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const { handleUserRegistered } = useUser();
@@ -10,6 +11,7 @@ function Register() {
   const [lastName, setLastName] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ function Register() {
       if (data && data.id) {
         handleUserRegistered(data);
         setSuccessMessage("Successfully registered!");
+        navigate("/dashboard");
       }
     } catch (err) {
       setSuccessMessage("");
