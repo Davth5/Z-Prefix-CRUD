@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import StyledWrapper from "./styles/StyledWrapper";
+import StyledTitle from "./styles/StyledTitle";
+import StyledButton from "./styles/StyledButton";
 
 function ItemDetails() {
   const { itemId } = useParams();
@@ -30,18 +33,18 @@ function ItemDetails() {
   };
 
   return (
-    <div>
+    <StyledWrapper>
       {item ? (
         <>
-          <h2>{item.itemName}</h2>
+          <StyledTitle>{item.itemName}</StyledTitle>
           <p>Description: {item.description}</p>
           <p>Quantity: {item.quantity}</p>
-          <button onClick={handleDelete}>Delete</button>
+          <StyledButton onClick={handleDelete}>Delete</StyledButton>
         </>
       ) : (
         <p>Loading item details...</p>
       )}
-    </div>
+    </StyledWrapper>
   );
 }
 

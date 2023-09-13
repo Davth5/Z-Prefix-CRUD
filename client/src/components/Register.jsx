@@ -4,26 +4,29 @@ import axios from "axios";
 function Register({ onUserRegistered }) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState(""); 
-  const [lastName, setLastName] = useState(""); 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post("http://localhost:8080/register", {
         userName,
         password,
-        firstName, 
-        lastName, 
+        firstName,
+        lastName,
       });
       const data = response.data;
-
       if (data && data.userId) {
         onUserRegistered(data);
       }
     } catch (err) {
-      console.error("Error registering:", err);
+      if (err.response && err.response.status === 400) {
+        setError("Username already exists. Choose a different one."); 
+      } else {
+        setError("Error registering. Please try again.");
+      }
     }
   };
 
@@ -38,7 +41,6 @@ function Register({ onUserRegistered }) {
           required
         />
       </label>
-
       <label>
         Last Name:
         <input
@@ -48,7 +50,6 @@ function Register({ onUserRegistered }) {
           required
         />
       </label>
-
       <label>
         Username:
         <input
@@ -58,7 +59,6 @@ function Register({ onUserRegistered }) {
           required
         />
       </label>
-
       <label>
         Password:
         <input
@@ -68,6 +68,7 @@ function Register({ onUserRegistered }) {
           required
         />
       </label>
+      {error && <p className="error-message">{error}</p>}
 
       <button type="submit">Register</button>
     </form>
