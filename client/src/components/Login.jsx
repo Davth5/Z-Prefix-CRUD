@@ -3,7 +3,7 @@ import { useUser } from "./UserContext";
 import axios from "axios";
 import { useNavigate } from "react-router";
 
-function Login({ onUserLoggedIn }) {
+function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null); // State to handle error messages
@@ -13,11 +13,16 @@ function Login({ onUserLoggedIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("Attempting login with:", { username, password }); // Log the login attempt
+
       const response = await axios.post("http://localhost:8080/login", {
         userName: username,
         password,
       });
       const data = response.data;
+
+      console.log("Login API response:", data); // Log the API response
+
       if (data && data.id) {
         setUser({ id: data.id, userName: data.userName });
         navigate("/dashboard"); // Redirect to dashboard after successful login
