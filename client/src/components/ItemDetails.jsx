@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CardMedia } from "@mui/material"; 
+import { CardMedia } from "@mui/material";
 import StyledWrapper from "./styles/StyledWrapper";
 import StyledTitle from "./styles/StyledTitle";
 import StyledButton from "./styles/StyledButton";
@@ -9,6 +9,7 @@ import StyledButton from "./styles/StyledButton";
 function ItemDetails() {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false); // New state for edit mode
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,11 +34,28 @@ function ItemDetails() {
     }
   };
 
+  const handleUpdate = async () => {
+    try {
+      await axios.patch(`/items/${itemId}`, item);
+      setIsEditMode(false);
+    } catch (error) {
+      console.error("Error updating item:", error);
+    }
+  };
+
   return (
     <StyledWrapper>
       {item ? (
         <>
-          <StyledTitle>{item.itemName}</StyledTitle>
+          {isEditMode ? (
+            <input
+              type="text"
+              value={item.itemName}
+              onChange={(e) => setItem({ ...item, itemName: e.target.value })}
+            />
+          ) : (
+            <StyledTitle>{item.itemName}</StyledTitle>
+          )}
           <CardMedia
             component="img"
             height="250"
@@ -46,9 +64,40 @@ function ItemDetails() {
             alt="Random Image"
             style={{ objectFit: "cover" }}
           />
-          <p>Description: {item.description}</p>
-          <p>Quantity: {item.quantity}</p>
+          <p>
+            Description:
+            {isEditMode ? (
+              <input
+                type="text"
+                value={item.description}
+                onChange={(e) =>
+                  setItem({ ...item, description: e.target.value })
+                }
+              />
+            ) : (
+              item.description
+            )}
+          </p>
+          <p>
+            Quantity:
+            {isEditMode ? (
+              <input
+                type="number"
+                value={item.quantity}
+                onChange={(e) => setItem({ ...item, quantity: e.target.value })}
+              />
+            ) : (
+              item.quantity
+            )}
+          </p>
           <StyledButton onClick={handleDelete}>Delete</StyledButton>
+          {isEditMode ? (
+            <StyledButton onClick={handleUpdate}>Update</StyledButton>
+          ) : (
+            <StyledButton onClick={() => setIsEditMode(true)}>
+              Edit
+            </StyledButton>
+          )}
         </>
       ) : (
         <p>Loading item details...</p>
