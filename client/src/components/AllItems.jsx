@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, Grid, CardMedia } from "@mui/material";
+import { Grid, CardMedia } from "@mui/material";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import StyledWrapper from "./styles/StyledWrapper";
 import StyledTitle from "./styles/StyledTitle";
 
@@ -42,18 +43,18 @@ function AllItems() {
                 overflow: "hidden",
               }}
             >
-              <CardMedia
-                component="img"
-                height="140"
-                width="100%"
-                image={`https://picsum.photos/200/300?random=${item.id}`}
-                alt="Random Image"
-                style={{ objectFit: "cover" }}
-              />
               <Link
                 to={`/item/${item.id}`}
                 style={{ textDecoration: "none", color: "#3f51b5" }}
               >
+                <CardMedia
+                  component="img"
+                  height="140"
+                  width="100%"
+                  image={`https://picsum.photos/200/300?random=${item.id}`}
+                  alt="Random Image"
+                  style={{ objectFit: "cover" }}
+                />
                 {item.itemName}
               </Link>
               <p>

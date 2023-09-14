@@ -38,6 +38,15 @@ function UserInventory({ userId }) {
     setItems((prevItems) => [...prevItems, newItem]);
   };
 
+  const handleDeleteItem = async (itemId) => {
+    try {
+      await axios.delete(`http://localhost:8080/items/${itemId}`);
+      setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
+
   const containerStyle = {
     padding: "20px",
     border: "1px solid #ccc",
@@ -67,6 +76,9 @@ function UserInventory({ userId }) {
     padding: "5px",
     border: "1px solid #ddd",
     borderRadius: "3px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   };
 
   return (
@@ -81,10 +93,15 @@ function UserInventory({ userId }) {
       <AddItem userId={userId} onItemAdded={handleItemAdded} />
 
       <div style={inventoryStyle}>
-        <h3>Your Inventory:</h3>
+        <h3 style={{ textAlign: "center", marginTop: "20px" }}>
+          Your Inventory:
+        </h3>
         {items.map((item) => (
           <div key={item.id} style={itemStyle}>
-            <Link to={`/item/${item.id}`}>{item.itemName}</Link>
+            <div style={{ flexGrow: 1, textAlign: "center" }}>
+              <Link to={`/item/${item.id}`}>{item.itemName}</Link>
+            </div>
+            <button onClick={() => handleDeleteItem(item.id)}>Delete</button>
           </div>
         ))}
       </div>

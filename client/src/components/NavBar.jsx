@@ -15,15 +15,7 @@ function NavBar() {
     setUser(null);
     navigate("/login");
   };
-  const navButtonStyle = {
-    padding: "10px 15px",
-    margin: "10px",
-    backgroundColor: "#007BFF",
-    color: "#FFF",
-    border: "none",
-    borderRadius: "5px",
-    textDecoration: "none",
-  };
+
   return (
     <AppBar position="static">
       <Toolbar>
