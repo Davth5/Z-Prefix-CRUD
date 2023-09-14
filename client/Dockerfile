@@ -1,11 +1,20 @@
+# Use an official Node.js runtime as the base image
 FROM node:alpine
 
-WORKDIR /app
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-COPY . /app
+# Copy package.json and package-lock.json to the container
+COPY package*.json ./
 
-EXPOSE 3000
-
+# Install frontend dependencies
 RUN npm install
 
-CMD npm start
+# Copy the rest of the frontend code to the container
+COPY . .
+
+# Expose port 3000 for the frontend
+EXPOSE 3000
+
+# Start the frontend app
+CMD ["npm", "start"]
