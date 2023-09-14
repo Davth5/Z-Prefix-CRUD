@@ -7,7 +7,7 @@ function StyledButton(props) {
     <Button
       variant="contained"
       color="primary"
-      style={{ marginTop: "20px" }}
+      style={{ marginTop: "20px", textAlign: "center" } }
       {...props}
     />
   );

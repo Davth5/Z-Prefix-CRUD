@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 import StyledWrapper from "./styles/StyledWrapper";
-import StyledButton from "./styles/StyledButton";
+import { Button, Box } from "@mui/material"; 
 import StyledTextArea from "./styles/StyledTextArea";
 import StyledTextField from "./styles/StyledTextField";
 import StyledTitle from "./styles/StyledTitle";
@@ -64,7 +64,11 @@ function AddItem({ onItemAdded }) {
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
-        <StyledButton type="submit">Add Item</StyledButton>
+        <Box mt={2} style={{ textAlign: "center" }}>
+          <Button variant="contained" color="primary" type="submit">
+            Add Item
+          </Button>
+        </Box>
       </form>
     </StyledWrapper>
   );
