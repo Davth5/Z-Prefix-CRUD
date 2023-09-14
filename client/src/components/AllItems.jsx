@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Grid, CardMedia } from "@mui/material";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom"; 
 import StyledWrapper from "./styles/StyledWrapper";
 import StyledTitle from "./styles/StyledTitle";
 

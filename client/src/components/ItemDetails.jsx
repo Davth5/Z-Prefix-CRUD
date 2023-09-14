@@ -68,7 +68,7 @@ function ItemDetails() {
             alt="Random Image"
             style={{ objectFit: "cover", marginBottom: "20px" }}
           />
-          <Box mb={2}>
+          <Box mb={2} style={{ textAlign: "center" }}>
             Description:
             {isEditMode ? (
               <TextField
@@ -84,7 +84,7 @@ function ItemDetails() {
               <p>{item.description}</p>
             )}
           </Box>
-          <Box mb={2}>
+          <Box mb={2} style={{ textAlign: "center" }}>
             Quantity:
             {isEditMode ? (
               <TextField
