@@ -11,10 +11,17 @@ function AddItem({ onItemAdded }) {
   const [itemName, setItemName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
   const { user } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+
+    if (!itemName.trim() || !description.trim() || !quantity) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
 
     const itemData = {
       userId: user.id,
@@ -32,12 +39,14 @@ function AddItem({ onItemAdded }) {
       }
     } catch (error) {
       console.error("Error adding item:", error);
+      setErrorMessage("Error adding item. Please try again.");
     }
   };
 
   return (
     <StyledWrapper>
       <StyledTitle>Add Item</StyledTitle>
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <StyledTextField
           label="Item Name"

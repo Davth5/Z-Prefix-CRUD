@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CardMedia } from "@mui/material";
+import { CardMedia, TextField, Box } from "@mui/material";
 import StyledWrapper from "./styles/StyledWrapper";
 import StyledTitle from "./styles/StyledTitle";
 import StyledButton from "./styles/StyledButton";
+import { useUser } from "./UserContext";
 
 function ItemDetails() {
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
-  const [isEditMode, setIsEditMode] = useState(false); 
+  const [isEditMode, setIsEditMode] = useState(false);
   const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchItemDetails = async () => {
@@ -26,6 +28,7 @@ function ItemDetails() {
   }, [itemId]);
 
   const handleDelete = async () => {
+    if (!user) return;
     try {
       await axios.delete(`/items/${itemId}`);
       navigate("/dashboard");
@@ -35,6 +38,7 @@ function ItemDetails() {
   };
 
   const handleUpdate = async () => {
+    if (!user) return;
     try {
       await axios.patch(`/items/${itemId}`, item);
       setIsEditMode(false);
@@ -48,8 +52,8 @@ function ItemDetails() {
       {item ? (
         <>
           {isEditMode ? (
-            <input
-              type="text"
+            <TextField
+              fullWidth
               value={item.itemName}
               onChange={(e) => setItem({ ...item, itemName: e.target.value })}
             />
@@ -62,41 +66,52 @@ function ItemDetails() {
             width="100%"
             image={`https://picsum.photos/200/300?random=${item.id}`}
             alt="Random Image"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", marginBottom: "20px" }}
           />
-          <p>
+          <Box mb={2}>
             Description:
             {isEditMode ? (
-              <input
-                type="text"
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
                 value={item.description}
                 onChange={(e) =>
                   setItem({ ...item, description: e.target.value })
                 }
               />
             ) : (
-              item.description
+              <p>{item.description}</p>
             )}
-          </p>
-          <p>
+          </Box>
+          <Box mb={2}>
             Quantity:
             {isEditMode ? (
-              <input
+              <TextField
                 type="number"
+                fullWidth
                 value={item.quantity}
                 onChange={(e) => setItem({ ...item, quantity: e.target.value })}
               />
             ) : (
-              item.quantity
+              <p>{item.quantity}</p>
             )}
-          </p>
-          <StyledButton onClick={handleDelete}>Delete</StyledButton>
-          {isEditMode ? (
-            <StyledButton onClick={handleUpdate}>Update</StyledButton>
-          ) : (
-            <StyledButton onClick={() => setIsEditMode(true)}>
-              Edit
-            </StyledButton>
+          </Box>
+          {user && (
+            <Box display="flex" justifyContent="space-between">
+              <Box>
+                {isEditMode ? (
+                  <StyledButton onClick={handleUpdate}>Update</StyledButton>
+                ) : (
+                  <StyledButton onClick={() => setIsEditMode(true)}>
+                    Edit
+                  </StyledButton>
+                )}
+              </Box>
+              <Box>
+                <StyledButton onClick={handleDelete}>Delete</StyledButton>
+              </Box>
+            </Box>
           )}
         </>
       ) : (

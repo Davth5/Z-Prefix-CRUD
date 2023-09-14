@@ -5,9 +5,11 @@ function StyledWrapper({ children }) {
   return (
     <Box
       display="flex"
+      flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
+      minHeight="calc(100vh - 60px)"
+      padding="30px 0"
     >
       <Card style={{ width: "500px", padding: "20px", margin: "20px auto" }}>
         {children}

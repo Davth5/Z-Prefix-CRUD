@@ -4,7 +4,6 @@ import { useUser } from "./UserContext";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 
 function NavBar() {
@@ -24,14 +23,6 @@ function NavBar() {
           alt="Logo"
           style={{ marginRight: "20px" }}
         />
-        <Typography
-          variant="h6"
-          component="a"
-          href="/"
-          style={{ marginRight: "20px" }}
-        >
-          IMS
-        </Typography>
 
         <Button color="inherit" component={Link} to="/items/all">
           Inventory
